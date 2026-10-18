@@ -1,0 +1,137 @@
+/* ==========================================================================
+   responsive.css — layout changes as the screen grows (mobile-first).
+   Breakpoints: 640px, 900px, 1200px, 1700px.
+   ========================================================================== */
+
+/* Phones and small tablets: collapsible navigation ------------------------ */
+@media (max-width: 899.98px) {
+  .js .nav-toggle { display: inline-flex; }
+
+  .js .site-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: none;
+    padding: 0.75rem var(--gutter) 1.25rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .js .site-nav.is-open { display: block; }
+  .js .site-nav ul { flex-direction: column; align-items: stretch; gap: 0; }
+  .js .site-nav li { border-bottom: 1px solid var(--line); }
+  .js .site-nav li:last-child { border-bottom: 0; padding-top: 0.75rem; }
+  .js .site-nav a { width: 100%; min-height: 3rem; }
+  .js .nav-github { justify-content: center; }
+
+  /* Without JavaScript there is no toggle, so let the header wrap and scroll away. */
+  html:not(.js) .site-header { position: absolute; height: auto; min-height: var(--header-h); flex-wrap: wrap; padding-block: 0.5rem; }
+  html:not(.js) .hero { padding-top: 9rem; }
+}
+
+/* 640px and up ------------------------------------------------------------ */
+@media (min-width: 640px) {
+  .facts { grid-template-columns: repeat(2, 1fr); }
+  .stairs { grid-template-columns: repeat(2, 1fr); }
+  .repo-list { grid-template-columns: repeat(2, 1fr); }
+  .project__facts { grid-template-columns: 1fr 1fr; }
+  .site-footer__inner { flex-direction: row; justify-content: space-between; align-items: center; }
+}
+
+/* 900px and up: desktop composition -------------------------------------- */
+@media (min-width: 900px) {
+  .nav-toggle { display: none !important; }
+
+  /* Headlines step back down once the layout becomes multi-column. */
+  .display { font-size: clamp(3rem, 6vw, 5.75rem); }
+  .hero__title { font-size: clamp(3.5rem, 7.2vw, 6.75rem); }
+
+  /* Hero: headline overlaps the lower, faded part of the portrait; the face stays clear. */
+  .hero { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding-bottom: 6.5rem; }
+  .hero__inner { grid-template-columns: repeat(12, 1fr); align-items: end; width: 100%; }
+  .hero__copy { grid-column: 1 / 9; grid-row: 1; margin-top: 0; }
+  .hero__portrait {
+    grid-column: 7 / 13;
+    grid-row: 1;
+    order: 0;
+    align-self: start;
+    justify-self: end;
+    width: min(100%, calc(70svh * 0.8));
+  }
+  .hero__portrait::before { inset: 1.25rem -1.25rem -1.25rem 1.25rem; }
+  .scroll-cue { display: flex; }
+
+  /* About */
+  .about__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: clamp(2rem, 6vw, 6rem); align-items: start; }
+  .about__photo { margin-top: 3.5rem; }
+  .about__path { grid-column: 1 / -1; margin-top: var(--s-4); }
+  .path { grid-template-columns: repeat(5, 1fr); gap: 1.5rem; border-left: 0; border-top: 1px solid var(--line-strong); }
+  .path li { padding: 2rem 0 0; }
+  .path li::before { left: 0; top: -0.85rem; }
+
+  /* Learning: a rising staircase */
+  .stairs { grid-template-columns: repeat(3, 1fr); column-gap: var(--s-3); row-gap: var(--s-4); }
+  .stair:nth-child(3n + 2) { margin-top: 1.75rem; }
+  .stair:nth-child(3n) { margin-top: 3.5rem; }
+
+  /* Projects: four different compositions */
+  .project { grid-template-columns: repeat(12, 1fr); column-gap: var(--s-3); align-items: start; }
+  .project__title { font-size: clamp(2.25rem, 5.2vw, 4.75rem); }
+
+  .project--wide .project__media { grid-column: 1 / -1; }
+  .project--wide .mock__screen { aspect-ratio: 21 / 9; }
+  .project--wide .project__body {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--s-3);
+    margin-top: var(--s-3);
+  }
+  .project--wide .project__kind,
+  .project--wide .project__title,
+  .project--wide .project__summary,
+  .project--wide .project__features,
+  .project--wide .project__links { grid-column: 1 / 8; }
+  .project--wide .project__facts { grid-column: 9 / -1; grid-row: 1 / span 5; align-self: start; grid-template-columns: 1fr; margin-top: 0; border-top: 0; padding-top: 0; }
+
+  .project--offset .project__body { grid-column: 1 / 6; grid-row: 1; align-self: center; }
+  .project--offset .project__media { grid-column: 6 / -1; grid-row: 1; margin-top: 4rem; }
+  .project--offset .project__facts { grid-template-columns: 1fr; }
+
+  .project--stack .project__media { grid-column: 1 / 7; }
+  .project--stack .mock__screen { aspect-ratio: 1 / 1; }
+  .project--stack .project__body { grid-column: 8 / -1; align-self: center; }
+  .project--stack .project__facts { grid-template-columns: 1fr; }
+
+  .project--compact { padding-top: var(--s-4); border-top: 1px solid var(--line-strong); }
+  .project--compact .project__media { grid-column: 1 / 5; }
+  .project--compact .mock__screen { aspect-ratio: 4 / 3; }
+  .project--compact .project__body { grid-column: 6 / -1; }
+
+  .repo-list { grid-template-columns: repeat(3, 1fr); }
+
+  /* Beyond */
+  .interests li { grid-template-columns: 7fr 5fr; align-items: end; column-gap: var(--s-4); }
+}
+
+/* 1200px and up ----------------------------------------------------------- */
+@media (min-width: 1200px) {
+  .stairs { grid-template-columns: repeat(6, 1fr); column-gap: var(--s-2); }
+  .stair:nth-child(n) { margin-top: 0; }
+  .stair:nth-child(2) { margin-top: 1.5rem; }
+  .stair:nth-child(3) { margin-top: 3rem; }
+  .stair:nth-child(4) { margin-top: 4.5rem; }
+  .stair:nth-child(5) { margin-top: 6rem; }
+  .stair:nth-child(6) { margin-top: 7.5rem; }
+  .stair h4 { font-size: 1.2rem; }
+}
+
+/* Very large screens: scale everything up one step ------------------------ */
+@media (min-width: 1700px) {
+  html { font-size: 112.5%; }
+}
+
+/* Short landscape phones: don't force a full-height hero ------------------ */
+@media (max-height: 520px) and (orientation: landscape) {
+  .hero { min-height: 0; }
+}

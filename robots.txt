@@ -1,0 +1,5 @@
+# Allow all crawlers to read the public site, including CSS and JavaScript.
+User-agent: *
+Allow: /
+
+Sitemap: https://udaybaniya.netlify.app/sitemap.xml

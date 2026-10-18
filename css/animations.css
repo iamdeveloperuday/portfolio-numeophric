@@ -1,0 +1,143 @@
+/* ==========================================================================
+   animations.css — the motion system.
+
+   RULES THIS FILE FOLLOWS
+   - Only opacity and transform are animated.
+   - Content is hidden ONLY when the <html class="js"> flag exists, and every
+     hidden state has a CSS failsafe that reveals it after 3.5 seconds, so a
+     script error or a blocked CDN can never leave the page empty.
+   - js/animations.js adds .is-in to trigger reveals. GSAP is optional.
+   - prefers-reduced-motion switches everything off at the bottom of this file.
+   ========================================================================== */
+
+:root {
+  --reveal-distance: 28px;
+  --reveal-time: 0.9s;
+}
+
+@keyframes show {
+  to { opacity: 1; transform: none; }
+}
+@keyframes show-line {
+  to { transform: none; }
+}
+@keyframes fill-to-rest {
+  to { transform: scaleX(0.72); }
+}
+
+/* 1. Section reveals (chapter headings and projects only) ---------------- */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(var(--reveal-distance));
+  animation: show 0.01s linear 3.5s forwards;
+}
+.js [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+  animation: none;
+  transition: opacity var(--reveal-time) var(--ease), transform var(--reveal-time) var(--ease);
+}
+
+/* 2. Hero entrance --------------------------------------------------------- */
+.js [data-hero] {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: show 0.01s linear 3.5s forwards;
+}
+.js [data-hero="portrait"] {
+  transform: translateX(2.5rem);
+}
+.js [data-hero].is-in {
+  opacity: 1;
+  transform: none;
+  animation: none;
+  transition: opacity 0.9s var(--ease), transform 1.1s var(--ease);
+}
+
+/* 3. Masked headline lines (hero and chapter 06) --------------------------- */
+.js [data-lines] .line__inner {
+  transform: translateY(105%);
+  animation: show-line 0.01s linear 3.5s forwards;
+}
+.js [data-lines].is-in .line__inner {
+  transform: none;
+  animation: none;
+  transition: transform 1.1s var(--ease);
+}
+.js [data-lines].is-in .line:nth-child(2) .line__inner { transition-delay: 0.12s; }
+
+/* 4. "Still loading" bar (chapter 06) -------------------------------------- */
+.js .loading__fill {
+  transform: scaleX(0.04);
+  animation: fill-to-rest 0.01s linear 3.5s forwards;
+}
+.js .loading.is-in .loading__fill {
+  transform: scaleX(0.72);
+  animation: none;
+  transition: transform 2.4s var(--ease);
+}
+
+/* When GSAP scrubs the bar on scroll, CSS must stay out of its way. */
+.js .loading.is-scrubbed .loading__fill {
+  animation: none;
+  transition: none;
+}
+
+/* 5. Hover feedback (pointer devices only, so nothing depends on hover) ---- */
+@media (hover: hover) {
+  .mock { transition: transform 0.6s var(--ease), border-color 0.3s; }
+  .project:hover .mock { transform: translateY(-6px); border-color: var(--accent); }
+  .project__img { transition: transform 0.6s var(--ease); }
+  .project:hover .project__img { transform: translateY(-6px); }
+}
+
+/* 6. Reduced motion: show everything, move nothing ------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+  .js [data-reveal],
+  .js [data-hero],
+  .js [data-hero="portrait"] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .js [data-lines] .line__inner { transform: none !important; }
+  .js .loading__fill { transform: scaleX(0.72) !important; }
+  .project:hover .mock,
+  .project:hover .project__img { transform: none !important; }
+}
+
+/* 7. Futuristic motion: marquee drift and pointer tilt (pointer devices only) */
+@keyframes marquee { to { transform: translateX(-50%); } }
+.marquee__track { animation: marquee 32s linear infinite; }
+@media (hover: hover) and (pointer: fine) {
+  .mock, .project__img { transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform 0.25s ease-out, border-color 0.3s; }
+  .project:hover .mock, .project:hover .project__img { transform: perspective(900px) translateY(-6px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track { animation: none !important; flex-wrap: wrap; width: auto; }
+  .mock, .project__img, .project:hover .mock, .project:hover .project__img { transform: none !important; }
+}
+
+/* 8. Neumorphic premium motion: staggered reveals, floating plate, soft shine */
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+.hero__portrait::before { animation: float 7s ease-in-out infinite; }
+.badge { animation: float 6s ease-in-out -2s infinite; }
+.js .stair.is-in, .js .interests li.is-in, .js .path li.is-in, .js .social-list li.is-in {
+  transition: opacity 0.9s var(--ease) calc(var(--i, 0) * 90ms), transform 0.9s var(--ease) calc(var(--i, 0) * 90ms), box-shadow 0.3s var(--ease) 0s;
+}
+.stair:nth-child(2), .interests li:nth-child(2), .path li:nth-child(2), .social-list li:nth-child(2) { --i: 1; }
+.stair:nth-child(3), .interests li:nth-child(3), .path li:nth-child(3), .social-list li:nth-child(3) { --i: 2; }
+.stair:nth-child(4), .path li:nth-child(4), .social-list li:nth-child(4) { --i: 3; }
+.stair:nth-child(5), .path li:nth-child(5) { --i: 4; }
+.stair:nth-child(6) { --i: 5; }
+@media (prefers-reduced-motion: reduce) {
+  .hero__portrait::before, .badge { animation: none !important; }
+}

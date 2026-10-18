@@ -1,0 +1,13 @@
+{
+  "name": "Uday Baniya | Front-End Developer Portfolio",
+  "short_name": "Uday Baniya",
+  "description": "Portfolio of Uday Baniya, a Computer Science student in Nepal building responsive websites with HTML, CSS and JavaScript.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "browser",
+  "background_color": "#e6eaf3",
+  "theme_color": "#e6eaf3",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
