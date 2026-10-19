@@ -2136,3 +2136,44 @@ html.theme-anim *::after {
 .project:hover .mock::after {
   transform: translateX(130%);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Verified badge on the profile logo */
+.brand__photo {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.brand__photo img.verified {
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  width: 25px;
+  height: 25px;
+  max-width: none;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  object-fit: contain;
+  object-position: center;
+  z-index: 2;
+}
+
+

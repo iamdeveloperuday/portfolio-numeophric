@@ -45,7 +45,7 @@
       purpose: 'Practising HTML, CSS and JavaScript through an application-style project.',
       tech: ['HTML', 'CSS', 'JavaScript'],
       live: 'https://studora-uday.netlify.app/',
-      repo: "https://github.com/' + OWNER + '/studentmanagement'", // No matching repository confirmed yet.
+      repo: 'https://github.com/' + OWNER + '/studentmanagement', // No matching repository confirmed yet.
       image: "assets/images/pro1.png", // e.g. 'assets/images/studora-student-directory-preview.webp'
       imageAlt: 'studora-uday'
     },
