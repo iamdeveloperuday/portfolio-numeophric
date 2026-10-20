@@ -36,11 +36,11 @@
   --measure: 62ch;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  section {
-  padding-block: calc(var(--section) / 2.5);
-}
+
 
 }
+
+
 
 /* 2. Reset and base ------------------------------------------------------ */
 *,
